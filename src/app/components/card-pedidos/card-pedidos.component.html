@@ -1,0 +1,24 @@
+<mat-card class="cardWithShadow overflow-hidden">
+    <mat-card-header class="d-flex align-items-center p-x-24">
+        <mat-card-title>{{ title }}</mat-card-title>
+        <div class="m-l-auto">
+            <button mat-fab class="shadow-none icon-48" [class]="getClassName()">
+                <i-tabler [name]="getIconName()" class="text-white d-flex"></i-tabler>
+            </button>
+        </div>
+    </mat-card-header>
+    <div class="m-b-32 p-x-24 m-t-12">
+        <h4 class="f-s-24">{{ value }}</h4>
+    </div>
+    <apx-chart
+        [series]="productsalesChart.series"
+        [dataLabels]="productsalesChart.dataLabels"
+        [chart]="productsalesChart.chart"
+        [legend]="productsalesChart.legend"
+        [colors]="productsalesChart.colors"
+        [stroke]="productsalesChart.stroke"
+        [tooltip]="productsalesChart.tooltip"
+        [plotOptions]="productsalesChart.plotOptions"
+        [responsive]="productsalesChart.responsive">
+    </apx-chart>
+</mat-card>

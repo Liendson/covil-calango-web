@@ -1,0 +1,35 @@
+<div class="row">
+  <div class="col-lg-4">
+    <app-card-pedidos
+      [title]="'Novos Pedidos'"
+      [value]="2"
+      variant="success"
+      icon="clock-exclamation"
+    ></app-card-pedidos>
+  </div>
+  <div class="col-lg-4">
+    <app-card-pedidos
+      [title]="'Pedidos Em Andamento'"
+      [value]="6"
+      variant="warning"
+      icon="clock-bolt"
+    ></app-card-pedidos>
+  </div>
+  <div class="col-lg-4">
+    <app-card-pedidos
+      [title]="'Pedidos Finalizados'"
+      [value]="76"
+      variant="danger"
+      icon="clock-check"
+    ></app-card-pedidos>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-6">
+    <app-proximos-pedidos></app-proximos-pedidos>
+  </div>
+  <div class="col-lg-6">
+    <app-comandas-abertas></app-comandas-abertas>
+  </div>
+</div>
