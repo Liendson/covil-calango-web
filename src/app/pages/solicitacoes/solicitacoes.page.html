@@ -31,13 +31,13 @@
 
             <ng-container matColumnDef="acoes">
               <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-16 text-center">
-                Ações
+                Ações 
               </th>
               <td mat-cell *matCellDef="let element" class="text-center">
-                <button mat-fab class="shadow-none bg-success icon-48 m-r-4" (click)="aceitarSolicitacao(element)">
+                <button matTooltip="Aceitar Solicitação" mat-fab class="shadow-none bg-success icon-48 m-r-4" (click)="aceitarSolicitacao(element)">
                   <i-tabler name="circle-check" class="text-white d-flex"></i-tabler>
                 </button>
-                <button mat-fab class="shadow-none bg-warning icon-48 m-l-4" (click)="recusarSolicitacao(element)">
+                <button matTooltip="Recusar Solicitação" mat-fab class="shadow-none bg-warning icon-48 m-l-4" (click)="recusarSolicitacao(element)">
                   <i-tabler name="square-x" class="text-white d-flex"></i-tabler>
                 </button>
               </td>

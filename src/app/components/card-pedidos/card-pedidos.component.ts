@@ -17,6 +17,7 @@ export class CardPedidosComponent implements OnInit {
   @Input() value: number;
   @Input() icon: string;
   @Input() variant: string;
+  @Input() showChart: boolean;
 
   public productsalesChart!: Partial<any> | any;
 

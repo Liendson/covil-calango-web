@@ -7,18 +7,20 @@
             </button>
         </div>
     </mat-card-header>
-    <div class="m-b-32 p-x-24 m-t-12">
+    <div class="m-b-32 p-x-24 m-t-12 m-r-10 m-l-10">
         <h4 class="f-s-24">{{ value }}</h4>
     </div>
-    <apx-chart
-        [series]="productsalesChart.series"
-        [dataLabels]="productsalesChart.dataLabels"
-        [chart]="productsalesChart.chart"
-        [legend]="productsalesChart.legend"
-        [colors]="productsalesChart.colors"
-        [stroke]="productsalesChart.stroke"
-        [tooltip]="productsalesChart.tooltip"
-        [plotOptions]="productsalesChart.plotOptions"
-        [responsive]="productsalesChart.responsive">
-    </apx-chart>
+    @if (showChart) {
+        <apx-chart
+            [series]="productsalesChart.series"
+            [dataLabels]="productsalesChart.dataLabels"
+            [chart]="productsalesChart.chart"
+            [legend]="productsalesChart.legend"
+            [colors]="productsalesChart.colors"
+            [stroke]="productsalesChart.stroke"
+            [tooltip]="productsalesChart.tooltip"
+            [plotOptions]="productsalesChart.plotOptions"
+            [responsive]="productsalesChart.responsive">
+        </apx-chart>
+    }
 </mat-card>

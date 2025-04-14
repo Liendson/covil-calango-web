@@ -1,5 +1,13 @@
 <div class="d-flex align-items-center justify-content-between">
-  <div class="branding"><app-branding></app-branding></div>
+  <div class="branding">
+    <a href="/" class="d-flex justify-content-center">
+      <img
+        src="./assets/images/covil-calango-logo.jpg"
+        class="align-middle m-2 logo"
+        alt="logo"
+      />
+    </a>
+  </div>
 
   @if(showToggle) {
   <a href="javascript:void(0)" (click)="toggleMobileNav.emit()"

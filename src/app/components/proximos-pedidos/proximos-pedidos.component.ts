@@ -1,40 +1,25 @@
-import { Component } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
+import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatIconModule } from '@angular/material/icon';
-import { TablerIconsModule } from 'angular-tabler-icons';
+import { fromStatusPedidoEnumValue } from 'src/app/enums/status-pedido.enum';
+import { PedidoDTO } from 'src/app/model/pedido.dto';
 
 @Component({
   selector: 'app-proximos-pedidos',
-  imports: [MatCardModule, MatChipsModule, TablerIconsModule, MatButtonModule, MatIconModule],
+  imports: [CommonModule, MatCardModule],
   templateUrl: './proximos-pedidos.component.html',
 })
 export class ProximosPedidosComponent {
 
-  constructor() { }
+  @Input()
+  public pedidos: PedidoDTO[] = [];
 
-  pedidos: any[] = [
-    {
-      id: 1,
-      time: '09.30 am',
-      color: 'primary',
-      title: '1x Porção de Batatas Rústicas',
-      link: '#Comanda 23',
-    },
-    {
-      id: 2,
-      time: '10.30 am',
-      color: 'warning',
-      title: '1x Refrigerante Lata',
-      link: '#Comanda 23',
-    },
-    {
-      id: 3,
-      time: '10.30 am',
-      color: 'warning',
-      title: '1x Refrigerante Lata',
-      link: '#Comanda 23',
-    },
-  ];
+  get pedidosOrdenados() {
+    return this.pedidos.slice().sort((a, b) => new Date(a.dataHora!).getTime() - new Date(b.dataHora!).getTime());
+  }
+
+  get status() {
+    return (status: string) => fromStatusPedidoEnumValue(status);
+  }
+  
 }

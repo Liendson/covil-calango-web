@@ -1,87 +1,230 @@
 <div class="row">
-  <div class="col-lg-6">
+  <div class="col-lg-4">
     <app-card-pedidos
       [title]="'Novos Pedidos'"
-      [value]="2"
+      [value]="pedidosPendentes.data.length"
       variant="success"
       icon="clock-exclamation"
     ></app-card-pedidos>
   </div>
-  <div class="col-lg-6">
+  <div class="col-lg-4">
     <app-card-pedidos
       [title]="'Pedidos Em Andamento'"
-      [value]="6"
+      [value]="pedidosEmAndamento.data.length"
       variant="warning"
       icon="clock-bolt"
     ></app-card-pedidos>
   </div>
+  <div class="col-lg-4">
+    <app-card-pedidos
+      [title]="'Pedidos Prontos'"
+      [value]="pedidosProntos.data.length"
+      variant="danger"
+      icon="clock-check"
+    ></app-card-pedidos>
+  </div>
 </div>
 
-<mat-card class="cardWithShadow">
-  <mat-card-content>
-    <div class="table-responsive">
-      <table mat-table [dataSource]="solicitacoes" class="w-100 text-center">
-        <!-- Profile Column -->
-        <ng-container matColumnDef="pedido">
-          <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-16 text-center">
-            Pedido
-          </th>
-          <td mat-cell *matCellDef="let element" class="text-center">
-            <span><span class="f-w-600 f-s-14">{{ element.nome }}</span></span>
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="quantidade">
-          <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-16 text-center">
-            Quantidade
-          </th>
-          <td mat-cell *matCellDef="let element" class="text-center">
-            <span><span class="f-w-600 f-s-14">{{ element.nome }}</span></span>
-          </td>
-        </ng-container>
-
-        <!-- Hour Rate Column -->
-        <ng-container matColumnDef="numero">
-          <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-16 text-center">
-            Número da Comanda
-          </th>
-          <td mat-cell *matCellDef="let element" class="text-center">
-            <span><span class="f-w-600 f-s-14">{{ element.comanda.numero }}</span></span>
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="cliente">
-          <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-16 text-center">
-            Nome do Cliente
-          </th>
-          <td mat-cell *matCellDef="let element" class="text-center">
-            <span><span class="f-w-600 f-s-14">{{ element.comanda.numero }}</span></span>
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="acoes">
-          <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-16 text-center">
-            Ações
-          </th>
-          <td mat-cell *matCellDef="let element" class="text-center">
-            <button mat-fab class="shadow-none bg-success icon-48 m-r-4">
-              <i-tabler name="circle-check" class="text-white d-flex"></i-tabler>
-            </button>
-            <button mat-fab class="shadow-none bg-warning icon-48 m-l-4">
-              <i-tabler name="square-x" class="text-white d-flex"></i-tabler>
-            </button>
-          </td>
-        </ng-container>
-
-        <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell" [attr.colspan]="displayedColumns.length">
-            Nenhuma solicitação no momento.
-          </td>
-        </tr>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-      </table>
+@if (pedidosPendentes.data.length) {
+  <div class="p-b-10">
+    <div class="d-flex align-items-center justify-content-between w-100">
+      <mat-card-title>Novos Pedidos</mat-card-title>
     </div>
-  </mat-card-content>
-</mat-card>
+  </div>
+  <mat-card class="cardWithShadow">
+    <mat-card-content>
+      <div class="table-responsive">
+        <table mat-table [dataSource]="pedidosPendentes" class="w-100 text-center">
+          <!-- Profile Column -->
+          <ng-container matColumnDef="pedido">
+            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-16 text-center">
+              Pedido
+            </th>
+            <td mat-cell *matCellDef="let pedido" class="text-center">
+              <span><span class="f-w-600 f-s-14">{{ pedido.produto.nome }}</span></span>
+            </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="quantidade">
+            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-16 text-center">
+              Quantidade
+            </th>
+            <td mat-cell *matCellDef="let pedido" class="text-center">
+              <span><span class="f-w-600 f-s-14">{{ pedido.quantidade }}x</span></span>
+            </td>
+          </ng-container>
+  
+          <!-- Hour Rate Column -->
+          <ng-container matColumnDef="numero">
+            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-16 text-center">
+              Número da Comanda
+            </th>
+            <td mat-cell *matCellDef="let pedido" class="text-center">
+              <span><span class="f-w-600 f-s-14">{{ pedido.comanda.numero }}</span></span>
+            </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="cliente">
+            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-16 text-center">
+              Nome do Cliente
+            </th>
+            <td mat-cell *matCellDef="let pedido" class="text-center">
+              <span><span class="f-w-600 f-s-14">{{ pedido.comanda.usuario.nome }}</span></span>
+            </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="acoes">
+            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-16 text-center">
+              Ações
+            </th>
+            <td mat-cell *matCellDef="let pedido" class="text-center">
+              <button mat-fab matTooltip="Aceitar Pedido" class="shadow-none bg-success icon-40 m-r-4" (click)="aceitarPedido(pedido)">
+                <i-tabler name="chef-hat" class="text-white d-flex"></i-tabler>
+              </button>
+              <button mat-fab matTooltip="Cancelar Pedido" class="shadow-none bg-warning icon-40 m-l-4" (click)="cancelarPedido(pedido)">
+                <i-tabler name="square-x" class="text-white d-flex"></i-tabler>
+              </button>
+            </td>
+          </ng-container>
+  
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+}
+
+@if (pedidosEmAndamento.data.length) {
+  <div class="p-b-10">
+    <div class="d-flex align-items-center justify-content-between w-100">
+      <mat-card-title>Pedidos em Andamento</mat-card-title>
+    </div>
+  </div>
+  <mat-card class="cardWithShadow">
+    <mat-card-content>
+      <div class="table-responsive">
+        <table mat-table [dataSource]="pedidosEmAndamento" class="w-100 text-center">
+          <!-- Profile Column -->
+          <ng-container matColumnDef="pedido">
+            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-16 text-center">
+              Pedido
+            </th>
+            <td mat-cell *matCellDef="let pedido" class="text-center">
+              <span><span class="f-w-600 f-s-14">{{ pedido.produto.nome }}</span></span>
+            </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="quantidade">
+            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-16 text-center">
+              Quantidade
+            </th>
+            <td mat-cell *matCellDef="let pedido" class="text-center">
+              <span><span class="f-w-600 f-s-14">{{ pedido.quantidade }}x</span></span>
+            </td>
+          </ng-container>
+  
+          <!-- Hour Rate Column -->
+          <ng-container matColumnDef="numero">
+            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-16 text-center">
+              Número da Comanda
+            </th>
+            <td mat-cell *matCellDef="let pedido" class="text-center">
+              <span><span class="f-w-600 f-s-14">{{ pedido.comanda.numero }}</span></span>
+            </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="cliente">
+            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-16 text-center">
+              Nome do Cliente
+            </th>
+            <td mat-cell *matCellDef="let pedido" class="text-center">
+              <span><span class="f-w-600 f-s-14">{{ pedido.comanda.usuario.nome }}</span></span>
+            </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="acoes">
+            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-16 text-center">
+              Ações
+            </th>
+            <td mat-cell *matCellDef="let pedido" class="text-center">
+              <button mat-fab matTooltip="Marcar como Pronto" class="shadow-none bg-success icon-40 m-r-4" (click)="concluirPedido(pedido)">
+                <i-tabler name="circle-check" class="text-white d-flex"></i-tabler>
+              </button>
+            </td>
+          </ng-container>
+  
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+}
+
+@if (pedidosProntos.data.length) {
+  <div class="p-b-10">
+    <div class="d-flex align-items-center justify-content-between w-100">
+      <mat-card-title>Pedidos Prontos</mat-card-title>
+    </div>
+  </div>
+  <mat-card class="cardWithShadow">
+    <mat-card-content>
+      <div class="table-responsive">
+        <table mat-table [dataSource]="pedidosProntos" class="w-100 text-center">
+          <!-- Profile Column -->
+          <ng-container matColumnDef="pedido">
+            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-16 text-center">
+              Pedido
+            </th>
+            <td mat-cell *matCellDef="let pedido" class="text-center">
+              <span><span class="f-w-600 f-s-14">{{ pedido.produto.nome }}</span></span>
+            </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="quantidade">
+            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-16 text-center">
+              Quantidade
+            </th>
+            <td mat-cell *matCellDef="let pedido" class="text-center">
+              <span><span class="f-w-600 f-s-14">{{ pedido.quantidade }}x</span></span>
+            </td>
+          </ng-container>
+  
+          <!-- Hour Rate Column -->
+          <ng-container matColumnDef="numero">
+            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-16 text-center">
+              Número da Comanda
+            </th>
+            <td mat-cell *matCellDef="let pedido" class="text-center">
+              <span><span class="f-w-600 f-s-14">{{ pedido.comanda.numero }}</span></span>
+            </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="cliente">
+            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-16 text-center">
+              Nome do Cliente
+            </th>
+            <td mat-cell *matCellDef="let pedido" class="text-center">
+              <span><span class="f-w-600 f-s-14">{{ pedido.comanda.usuario.nome }}</span></span>
+            </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="acoes">
+            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-16 text-center">
+              Ações
+            </th>
+            <td mat-cell *matCellDef="let pedido" class="text-center">
+              <button mat-fab matTooltip="Finalizar Pedido" class="shadow-none bg-success icon-40 m-r-4" (click)="finalizarPedido(pedido)">
+                <i-tabler name="progress-check" class="text-white d-flex"></i-tabler>
+              </button>
+            </td>
+          </ng-container>
+  
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+}

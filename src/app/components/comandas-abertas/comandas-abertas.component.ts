@@ -3,37 +3,11 @@ import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MaterialModule } from 'src/app/material.module';
-
-const ELEMENT_DATA: any[] = [
-  {
-    id: 4,
-    nome: 'Liendson Douglas',
-    numero: '12345',
-    valor: '74',
-    hora: new Date(),
-  },
-  {
-    id: 4,
-    nome: 'Leonardo Donato',
-    numero: '12345',
-    valor: '50',
-    hora: new Date(),
-  },
-  {
-    id: 4,
-    nome: 'Maria Rita',
-    numero: '123456',
-    valor: '23',
-    hora: new Date(),
-  },
-  {
-    id: 4,
-    nome: 'Altayr Franco',
-    numero: '1234567',
-    valor: '61',
-    hora: new Date(),
-  },
-];
+import { ComandaService } from 'src/app/services/http-services/comanda.service';
+import { HttpParams } from '@angular/common/http';
+import { fromStatusComandaEnumValue, StatusComandaEnum } from 'src/app/enums/status-comanda.enum';
+import { lastValueFrom } from 'rxjs';
+import { ComandaDTO } from 'src/app/model/comanda.dto';
 
 @Component({
   selector: 'app-comandas-abertas',
@@ -42,6 +16,23 @@ const ELEMENT_DATA: any[] = [
   templateUrl: './comandas-abertas.component.html',
 })
 export class ComandasAbertasComponent {
-  displayedColumns: string[] = ['nome', 'numero', 'valor', 'hora'];
-  dataSource = ELEMENT_DATA;
+  public displayedColumns: string[] = ['nome', 'numero', 'valor', 'hora'];
+  public comandas: ComandaDTO[] = [];
+
+  constructor(private comandaService: ComandaService) {
+    this.obterComandasAbertas();
+  }
+
+  async obterComandasAbertas() {
+    this.comandas = await lastValueFrom(this.comandaService.getAllByParams(this.buildParams()));
+  }
+
+  buildParams() {
+    let params = new HttpParams();
+    params = params.append('status', fromStatusComandaEnumValue(StatusComandaEnum.ABERTA));
+    const localDate = new Date();
+    localDate.setHours(0, 0, 0, 0);
+    params = params.append('dataHoraEntrada', localDate.toISOString());
+    return params;
+  }
 }

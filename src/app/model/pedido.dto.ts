@@ -1,3 +1,4 @@
+import { ComandaDTO } from './comanda.dto';
 import { ProdutoDTO } from './produtos.dto';
 
 export class PedidoDTO {
@@ -7,7 +8,7 @@ export class PedidoDTO {
   public observacao?: string;
   public produto?: ProdutoDTO;
   public quantidade?: number;
-  public comanda?: string;
+  public comanda?: ComandaDTO;
 
   constructor(formGroupValue?: any) {
     this.observacao = formGroupValue?.observacao;
