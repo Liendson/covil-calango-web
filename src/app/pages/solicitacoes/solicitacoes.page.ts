@@ -18,7 +18,7 @@ import { AlertService } from 'src/app/services/alert.service';
 })
 export class SolicitacoesPage implements OnInit {
 
-  public displayedColumns: string[] = ['nome', 'numero', 'acoes'];
+  public displayedColumns: string[] = ['nome', 'dataHora', 'acoes'];
   public solicitacoes = new MatTableDataSource<any>([]);
 
   constructor(
@@ -56,13 +56,13 @@ export class SolicitacoesPage implements OnInit {
   }
 
   aceitarSolicitacao(solicitacao: SolicitacaoDTO) {
-    this.websocketService.send('/app/comanda/aceitar', solicitacao);
+    this.websocketService.send('/app/solicitacao/aceitar', solicitacao);
     this.removerSolicitacaoDaLista(solicitacao);
     this.alertService.showToast('Solicitação Aceita!')
   }
 
   recusarSolicitacao(solicitacao: SolicitacaoDTO) {
-    this.websocketService.send('/app/comanda/recusar', solicitacao);
+    this.websocketService.send('/app/solicitacao/recusar', solicitacao);
     this.removerSolicitacaoDaLista(solicitacao);
     this.alertService.showToast('Solicitação Recusada!', 'warning')
   }
