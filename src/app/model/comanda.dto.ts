@@ -7,4 +7,6 @@ export class ComandaDTO {
   public dataHoraEntrada?: Date;
   public dataHoraSaida?: Date;
   public status?: string;
+  public pedidos?: any[];
+  public valorTotal?: number;
 }

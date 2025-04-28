@@ -1,26 +1,33 @@
 <mat-card class="cardWithShadow">
-    <mat-card-content class="p-y-24">
-        <mat-card-title>Próximos Pedidos</mat-card-title>
+	<mat-card-content class="p-y-24">
+		<mat-card-title>Próximos Pedidos</mat-card-title>
 
-        <div class="timeline m-t-24">
-            @for (pedido of pedidosOrdenados; track pedido.id) {
-            <div class="timeline-item d-flex overflow-hidden">
-                <div class="time text-right f-s-14">{{ pedido.dataHora | date: 'HH:mm' }}</div>
-                <div class="point d-flex align-items-center">
-                    <span class="timeline-badge border-primary m-y-8"></span>
-                    <span class="timline-border d-block"></span>
-                </div>
-                <div class="desc">
-                    @if (pedido.produto) {
-                        <span class="lh-20 f-w-600 d-block f-s-14">{{ pedido.quantidade }}x {{ pedido.produto.nome }} - {{ status(pedido.status!) }}</span>
-                    }
+		<div class="timeline m-t-24">
+			@for (pedido of pedidosOrdenados; track pedido.id) {
+				<div class="timeline-item d-flex overflow-hidden">
+					<div class="time text-right f-s-14">{{ pedido.dataHora | date: 'HH:mm' }}</div>
+					<div class="point d-flex align-items-center">
+						<span class="timeline-badge border-primary m-y-8"></span>
+						<span class="timline-border d-block"></span>
+					</div>
+					<div class="desc">
+						@if (pedido.produto) {
+							<span class="lh-20 f-w-600 d-block f-s-14">{{ pedido.quantidade }}x {{ pedido.produto.nome }} - {{ status(pedido.status!) }}</span>
+						}
 
-                    @if (pedido.comanda) {
-                        <a class="text-primary text-decoration-none f-s-14">#Comanda - {{ pedido.comanda.numero }}</a>
-                    }
-                </div>
-            </div>
-            }
-        </div>
-    </mat-card-content>
+						@if (pedido.comanda) {
+							<a class="text-primary text-decoration-none f-s-14">#Comanda - {{ pedido.comanda.numero }}</a>
+						}
+					</div>
+				</div>
+			}
+			@if (!pedidosOrdenados.length) {
+				<tr class="mat-row">
+					<td class="mat-cell">
+						Nenhum pedido na fila por enquanto.
+					</td>
+				</tr>
+			}
+		</div>
+	</mat-card-content>
 </mat-card>

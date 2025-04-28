@@ -66,10 +66,11 @@ export class PedidosPage implements OnInit {
   }
 
   cancelarPedido(pedido: PedidoDTO) {
-    // TODO: ADICIONAR CONFIRMAÇÃO ANTES DE CANCELAR
-    this.pedidoService.cancelarPedido(pedido.id!).subscribe(() => {
-      this.carregarPedidos().then(() => this.alertService.showToast('Pedido Cancelado!', 'warning'));
-    });
+    this.alertService.showConfirmation('Alerta!', 'Tem certeza que deseja cancelar o pedido?', () => {
+      this.pedidoService.cancelarPedido(pedido.id!).subscribe(() => {
+        this.carregarPedidos().then(() => this.alertService.showToast('Pedido Cancelado!', 'warning'));
+      });
+    })
   }
 
   concluirPedido(pedido: PedidoDTO) {

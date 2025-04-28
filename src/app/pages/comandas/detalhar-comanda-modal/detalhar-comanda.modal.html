@@ -1,0 +1,90 @@
+<div class="modal-header">
+  <h4 class="modal-title">Detalhar Comanda - {{ comanda.numero }}</h4>
+</div>
+<div class="modal-body">
+  <mat-card-content>
+    <form>
+      <div class="row">
+        <div class="col-12">
+          <mat-label class="f-w-600 m-b-8 d-block">Nome do Cliente</mat-label>
+          <mat-form-field color="accent">
+            <input matInput [value]="comanda.usuario?.nome" readonly />
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-6">
+          <mat-label class="f-w-600 m-b-8 d-block">Número</mat-label>
+          <mat-form-field color="primary">
+            <input matInput [value]="comanda.numero" readonly />
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-6">
+          <mat-label class="f-w-600 m-b-8 d-block">Status</mat-label>
+          <mat-form-field color="primary">
+            <input matInput [value]="comanda.status" readonly />
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-6">
+          <mat-label class="f-w-600 m-b-8 d-block">Hora da Entrada</mat-label>
+          <mat-form-field color="primary">
+            <input matInput [value]="comanda.dataHoraEntrada | date: 'HH:mm'" readonly />
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-6">
+          <mat-label class="f-w-600 m-b-8 d-block">Hora da Saída</mat-label>
+          <mat-form-field color="primary">
+            <input matInput [value]="comanda.dataHoraSaida | date: 'HH:mm'" readonly />
+          </mat-form-field>
+        </div>
+        
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12">
+          <mat-card class="b-1 shadow-none">
+            <mat-card-header>
+              <mat-card-title>Pedidos</mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="b-t-1">
+              <mat-list>
+                @for (pedido of comanda.pedidos; track pedido.id) {
+                  <mat-list-item>
+                    <span matListItemTitle class="f-s-16 f-w-600">{{ pedido.quantidade }}x {{ pedido.nomeProduto }}</span>
+                    <span matListItemLine>{{ pedido.valorProduto | currency: 'R$' }}</span>
+                  </mat-list-item>
+                }
+                <!-- AJUSTAR PARA MOSTRAR CORRETAMENTE VALOR DO PASSAPORTE / INSCRIÇÃO -->
+                <mat-list-item>
+                  <span matListItemTitle class="f-s-16 f-w-600">1x Passaporte / Inscrição</span>
+                  <span matListItemLine>{{ 20 | currency: 'R$' }}</span>
+                </mat-list-item>
+              </mat-list>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12">
+          <mat-card class="b-1 shadow-none">
+            <mat-card-header>
+              <mat-card-title>Valor Total da Comanda - {{ comanda.valorTotal | currency: 'R$' }}</mat-card-title>
+            </mat-card-header>
+          </mat-card>
+        </div>
+      </div>
+
+    </form>
+  </mat-card-content>
+</div>
+<div class="modal-footer d-flex justify-content-center">
+  <button mat-flat-button class="shadow-none bg-warning m-l-4" (click)="fecharComanda()">
+    Fechar Comanda
+  </button>
+  <button mat-flat-button class="shadow-none bg-default m-l-4" (click)="close()">
+    Voltar
+  </button>
+</div>

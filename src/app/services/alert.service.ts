@@ -8,12 +8,27 @@ export class AlertService {
 
   constructor() { }
 
-  showAlert(title: string, text: string, icon: SweetAlertIcon = 'info', options: SweetAlertOptions = {}) {
+  showAlert(title: string, text: string, icon: SweetAlertIcon = 'question', options: SweetAlertOptions = {}) {
     Swal.fire({
       title,
       text,
       icon,
       ...options
+    });
+  }
+
+  showConfirmation(title: string, text: string, callback: Function) {
+    Swal.fire({
+      title,
+      text,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Sim',
+      cancelButtonText: 'Não'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        callback();
+      }
     });
   }
 

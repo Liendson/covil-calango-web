@@ -22,10 +22,10 @@ export const navItems: NavItem[] = [
     route: '/pedidos/listar',
     bgcolor: 'success',
   },
-  // {
-  //   displayName: 'Comandas',
-  //   iconName: 'info-circle',
-  //   route: '/comandas/listar',
-  //   bgcolor: 'success',
-  // },
+  {
+    displayName: 'Comandas',
+    iconName: 'info-circle',
+    route: '/comandas/listar',
+    bgcolor: 'success',
+  },
 ];

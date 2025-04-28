@@ -13,4 +13,12 @@ export class ComandaService extends AbstractGenericClass {
     return this.httpClient.get<ComandaDTO[]>(`${this.urlController}`, { params });
   }
 
+  getByNumero(numero: any, params: HttpParams = new HttpParams()) {
+    return this.httpClient.get<ComandaDTO[]>(`${this.urlController}/${numero}`, { params });
+  }
+
+  fecharComanda(numero: any, params: HttpParams = new HttpParams()) {
+    return this.httpClient.put<ComandaDTO[]>(`${this.urlController}/fechar/${numero}`, { params });
+  }
+
 }
