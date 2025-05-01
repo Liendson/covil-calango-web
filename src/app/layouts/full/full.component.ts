@@ -14,6 +14,8 @@ import { TablerIconsModule } from 'angular-tabler-icons';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { AppNavItemComponent } from './sidebar/nav-item/nav-item.component';
 import { navItems } from './sidebar/sidebar-data';
+import { UserStateService } from 'src/app/services/user.service';
+import { UsuarioDTO } from 'src/app/model/usuario.dto';
 
 const MOBILE_VIEW = 'screen and (max-width: 768px)';
 const TABLET_VIEW = 'screen and (min-width: 769px) and (max-width: 1024px)';
@@ -33,7 +35,7 @@ const TABLET_VIEW = 'screen and (min-width: 769px) and (max-width: 1024px)';
   styleUrls: ['./full.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class FullComponent implements OnInit {
+export class FullComponent {
 
   @ViewChild('leftsidenav')
   public sidenav: MatSidenav;
@@ -55,6 +57,7 @@ export class FullComponent implements OnInit {
     private settings: CoreService,
     private router: Router,
     private breakpointObserver: BreakpointObserver,
+    public userStateService: UserStateService
   ) {
     this.layoutChangesSubscription = this.breakpointObserver
       .observe([MOBILE_VIEW, TABLET_VIEW])
@@ -68,12 +71,8 @@ export class FullComponent implements OnInit {
 
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe((e) => {
-        this.content.scrollTo({ top: 0 });
-      });
+      .subscribe(() => this.content.scrollTo({ top: 0 }));
   }
-
-  ngOnInit(): void { }
 
   ngOnDestroy() {
     this.layoutChangesSubscription.unsubscribe();

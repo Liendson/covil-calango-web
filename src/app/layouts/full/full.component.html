@@ -3,10 +3,11 @@
     <div class="flex-layout">
       <app-sidebar (toggleMobileNav)="sidenav.toggle()" [showToggle]="isOver"></app-sidebar>
       <div class="usuario">
-        <div class="bg-light-success d-flex align-items-center gap-4 rounded p-20">
+        <div class="bg-light-success d-flex justify-content-center align-items-center gap-4 rounded p-20">
           <div>
             <h5 class="f-s-16 f-w-600">
-              Usuário
+              {{ userStateService.currentUser()?.nome }}
+              <!-- Adicionar Logout -->
             </h5>
           </div>
         </div>

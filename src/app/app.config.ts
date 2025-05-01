@@ -1,5 +1,5 @@
 import { ApplicationConfig, provideZoneChangeDetection, importProvidersFrom } from '@angular/core';
-import { provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { routes } from './app.routes';
 import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -10,9 +10,11 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
 import { MaterialModule } from './material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { httpLoadingInterceptor } from './interceptors/http-loading-interceptor';
+import { socialAuthServiceConfig } from './config';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    socialAuthServiceConfig,
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(
       routes,
