@@ -15,6 +15,7 @@ export const navItems: NavItem[] = [
     iconName: 'archive',
     route: '/solicitacoes/listar',
     bgcolor: 'success',
+    notificacoesPendentes: 0,
   },
   {
     displayName: 'Pedidos',

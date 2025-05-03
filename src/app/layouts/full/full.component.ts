@@ -1,19 +1,19 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { Subscription } from 'rxjs';
 import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
+import { Subscription } from 'rxjs';
 import { CoreService } from 'src/app/services/core.service';
 
-import { filter } from 'rxjs/operators';
-import { NavigationEnd, Router } from '@angular/router';
-import { RouterModule } from '@angular/router';
-import { MaterialModule } from 'src/app/material.module';
 import { CommonModule } from '@angular/common';
-import { NgScrollbarModule } from 'ngx-scrollbar';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { TablerIconsModule } from 'angular-tabler-icons';
-import { SidebarComponent } from './sidebar/sidebar.component';
+import { NgScrollbarModule } from 'ngx-scrollbar';
+import { filter } from 'rxjs/operators';
+import { MaterialModule } from 'src/app/material.module';
+import { WebsocketService } from 'src/app/services/http-services/websocket.service';
 import { AppNavItemComponent } from './sidebar/nav-item/nav-item.component';
 import { navItems } from './sidebar/sidebar-data';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 const MOBILE_VIEW = 'screen and (max-width: 768px)';
 const TABLET_VIEW = 'screen and (min-width: 769px) and (max-width: 1024px)';
@@ -44,6 +44,7 @@ export class FullComponent implements OnInit {
   public navItems = navItems;
   public resView = false;
   public options = this.settings.getOptions();
+  public notificacoesPendentes = 0;
   private layoutChangesSubscription = Subscription.EMPTY;
   private isMobileScreen = false;
 
@@ -55,6 +56,7 @@ export class FullComponent implements OnInit {
     private settings: CoreService,
     private router: Router,
     private breakpointObserver: BreakpointObserver,
+    private websocketService: WebsocketService
   ) {
     this.layoutChangesSubscription = this.breakpointObserver
       .observe([MOBILE_VIEW, TABLET_VIEW])
@@ -73,10 +75,37 @@ export class FullComponent implements OnInit {
       });
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.websocketService.createWebSocketConnection().subscribe(() => {
+      this.websocketService.getClient().subscribe('/topic/solicitacoes', () => {
+        this.notificacoesPendentes++;
+        const solicitacoes = this.navItems.find(item => item.displayName === 'Solicitações');
+        if (solicitacoes) {
+          solicitacoes.notificacoesPendentes = this.notificacoesPendentes;
+        }
+      });
+    });
+  }
 
   ngOnDestroy() {
     this.layoutChangesSubscription.unsubscribe();
+  }
+
+
+  onNotificacoesLidas() {
+    this.notificacoesPendentes = 0;
+    const solicitacoes = this.navItems.find(item => item.displayName === 'Solicitações');
+    if (solicitacoes) {
+      solicitacoes.notificacoesPendentes = 0;
+    }
+  }
+
+  resetNotificacoes() {
+    this.notificacoesPendentes = 0;
+  }
+
+  trackByItem(index: number, item: any): number {
+    return index;
   }
 
   toggleCollapsed() {
