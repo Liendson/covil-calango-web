@@ -4,8 +4,10 @@
   "compilerOptions": {
     "outDir": "./out-tsc/app",
     "types": [
-      "@angular/localize"
-    ]
+      "@angular/localize",
+      "gapi.auth2",
+      "gapi.client.people"
+    ],
   },
   "files": [
     "src/main.ts",
