@@ -15,6 +15,7 @@ export const navItems: NavItem[] = [
     iconName: 'archive',
     route: '/solicitacoes/listar',
     bgcolor: 'success',
+    notificacoesPendentes: 0,
   },
   {
     displayName: 'Pedidos',
@@ -22,10 +23,10 @@ export const navItems: NavItem[] = [
     route: '/pedidos/listar',
     bgcolor: 'success',
   },
-  // {
-  //   displayName: 'Comandas',
-  //   iconName: 'info-circle',
-  //   route: '/comandas/listar',
-  //   bgcolor: 'success',
-  // },
+  {
+    displayName: 'Comandas',
+    iconName: 'info-circle',
+    route: '/comandas/listar',
+    bgcolor: 'success',
+  },
 ];

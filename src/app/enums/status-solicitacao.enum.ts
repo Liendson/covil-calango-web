@@ -2,6 +2,7 @@
 export enum StatusSolicitacaoEnum {
   EM_ANALISE = 'EM_ANALISE',
   ACEITA = 'ACEITA',
+  RECUSADA = 'RECUSADA'
 }
 
 export const fromStatusSolicitacaoEnumValue = (status: string): string => {
@@ -10,6 +11,8 @@ export const fromStatusSolicitacaoEnumValue = (status: string): string => {
       return 'Em Análise';
     case StatusSolicitacaoEnum.ACEITA:
       return 'Aceita';
+    case StatusSolicitacaoEnum.RECUSADA:
+      return 'Recusada';
     default:
       return '';
   }

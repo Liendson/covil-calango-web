@@ -10,16 +10,17 @@ import { StatusPedidoEnum } from 'src/app/enums/status-pedido.enum';
 import { lastValueFrom } from 'rxjs';
 import { AlertService } from 'src/app/services/alert.service';
 import { WebsocketService } from 'src/app/services/http-services/websocket.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-pedidos',
-  imports: [MaterialModule, CardPedidosComponent, TablerIconsModule],
+  imports: [CommonModule, MaterialModule, CardPedidosComponent, TablerIconsModule],
   templateUrl: './pedidos.page.html',
   encapsulation: ViewEncapsulation.None,
 })
 export class PedidosPage implements OnInit {
 
-  public displayedColumns: string[] = ['pedido', 'quantidade', 'numero', 'cliente', 'acoes'];
+  public displayedColumns: string[] = ['pedido', 'quantidade', 'numero', 'cliente', 'hora', 'acoes'];
   public pedidosPendentes = new MatTableDataSource<PedidoDTO>([]);
   public pedidosEmAndamento = new MatTableDataSource<PedidoDTO>([]);
   public pedidosProntos = new MatTableDataSource<PedidoDTO>([]);
@@ -42,15 +43,16 @@ export class PedidosPage implements OnInit {
   }
 
   async carregarPedidos() {
-    // TODO: AJUSTAR PARA CONSULTAR APENAS UMA VEZ E DEPOIS FILTRAR
-    this.pedidosPendentes.data = await lastValueFrom(this.pedidoService.getAllByParams(this.buildParams(StatusPedidoEnum.SOLICITADO)));
-    this.pedidosEmAndamento.data = await lastValueFrom(this.pedidoService.getAllByParams(this.buildParams(StatusPedidoEnum.EM_ANDAMENTO)));
-    this.pedidosProntos.data = await lastValueFrom(this.pedidoService.getAllByParams(this.buildParams(StatusPedidoEnum.PRONTO))); 
+    const params = this.buildParams([StatusPedidoEnum.SOLICITADO, StatusPedidoEnum.EM_ANDAMENTO, StatusPedidoEnum.PRONTO]);
+    const pedidos = await lastValueFrom(this.pedidoService.getAllByParams(params));
+    this.pedidosPendentes.data = pedidos.filter(p => p.status === StatusPedidoEnum.SOLICITADO);
+    this.pedidosEmAndamento.data = pedidos.filter(p => p.status === StatusPedidoEnum.EM_ANDAMENTO);
+    this.pedidosProntos.data = pedidos.filter(p => p.status === StatusPedidoEnum.PRONTO); 
   }
 
-  buildParams(status: StatusPedidoEnum) {
+  buildParams(status: StatusPedidoEnum[]) {
     let params = new HttpParams();
-    params = params.append('status', status);
+    status.forEach(s => params = params.append('status', s))
     const localDate = new Date();
     localDate.setHours(0, 0, 0, 0);
     params = params.append('dataHora', localDate.toISOString());
@@ -64,10 +66,11 @@ export class PedidosPage implements OnInit {
   }
 
   cancelarPedido(pedido: PedidoDTO) {
-    // TODO: ADICIONAR CONFIRMAÇÃO ANTES DE CANCELAR
-    this.pedidoService.cancelarPedido(pedido.id!).subscribe(() => {
-      this.carregarPedidos().then(() => this.alertService.showToast('Pedido Cancelado!', 'warning'));
-    });
+    this.alertService.showConfirmation('Alerta!', 'Tem certeza que deseja cancelar o pedido?', () => {
+      this.pedidoService.cancelarPedido(pedido.id!).subscribe(() => {
+        this.carregarPedidos().then(() => this.alertService.showToast('Pedido Cancelado!', 'warning'));
+      });
+    })
   }
 
   concluirPedido(pedido: PedidoDTO) {

@@ -27,7 +27,7 @@
 
 <div class="row">
   <div class="col-lg-6">
-    <app-proximos-pedidos [pedidos]="pedidos"></app-proximos-pedidos>
+    <app-proximos-pedidos [pedidos]="pedidosSolicitados.concat(pedidosEmAndamento)"></app-proximos-pedidos>
   </div>
   <div class="col-lg-6">
     <app-comandas-abertas></app-comandas-abertas>
